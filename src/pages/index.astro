@@ -5,27 +5,6 @@ import SkillTree from "../components/SkillTree.astro";
 import Footer from "../components/Footer.astro";
 import Layout from "../layouts/Layout.astro";
 
-const proyectos = [
-	{
-		title: "GaelIUX Portfolio",
-		description: "Portafolio personal inmersivo construido con Astro, CSS Vanilla y JavaScript. Fondo de bosque mágico con parallax, Skill Tree interactivo y carruseles multimedia.",
-		tags: ["Astro", "CSS", "JavaScript"],
-		github: "https://github.com/GaeloCanelo/gaeliux-portfolio",
-	},
-	{
-		title: "Agente GNS3",
-		description: "Agente de automatización para GNS3 basado en MCP Server. Despliega topologías de red completas, configura dispositivos Cisco y genera documentación automáticamente.",
-		tags: ["Node.js", "GNS3", "Networking"],
-		github: "https://github.com/GaeloCanelo/Agente_GNS3",
-	},
-	{
-		title: "Sistema de Chat Distribuido",
-		description: "Aplicación de mensajería distribuida en Rust con cifrado híbrido RSA+AES, servidor relay central y GUI con egui/eframe.",
-		tags: ["Rust", "Criptografía", "Tokio"],
-		github: "https://github.com/GaeloCanelo",
-	},
-];
-
 const poemasCreativos: string[] = [
 	"/escritos/escritura_creativa/poema1.jpg",
 	"/escritos/escritura_creativa/poema2.jpg",
@@ -85,33 +64,6 @@ const fabulas: string[] = [
 				Soluciones tecnológicas que resultan de mi experimentación con
 				frontend, backend y arquitectura de software.
 			</p>
-		</div>
-
-		<div class="projects-grid">
-			{
-				proyectos.map((proyecto) => (
-					<article class="card">
-						<h3>{proyecto.title}</h3>
-						<p>{proyecto.description}</p>
-
-						<div class="tags">
-							{proyecto.tags.map((tag) => (
-								<span class="tag">{tag}</span>
-							))}
-						</div>
-
-						{proyecto.github && (
-							<a
-								href={proyecto.github}
-								target="_blank"
-								class="link-btn"
-							>
-								Ver en GitHub
-							</a>
-						)}
-					</article>
-				))
-			}
 		</div>
 
 		<!-- Repo carousel integrated under projects -->
