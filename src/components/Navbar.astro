@@ -1,0 +1,250 @@
+<nav class="navbar" id="main-nav">
+    <div class="nav-links" id="nav-links">
+        <a href="#inicio" class="nav-link active" data-section="inicio">Inicio</a>
+        <a href="#proyectos" class="nav-link" data-section="proyectos">Proyectos</a>
+        <a href="#habilidades" class="nav-link" data-section="habilidades">Habilidades</a>
+        <a href="#escritos" class="nav-link" data-section="escritos">Escritos</a>
+        <a href="#cv" class="nav-link" data-section="cv">CV</a>
+        <a href="#llave-publica" class="nav-link" data-section="llave-publica">Llave Pública</a>
+        <a href="#criptografia" class="nav-link" data-section="criptografia">Criptografía</a>
+        <a href="#raices" class="nav-link" data-section="raices">Raíces</a>
+    </div>
+    <button class="hamburger" id="hamburger-btn" aria-label="Abrir menú">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+</nav>
+
+<style>
+    .navbar {
+        position: fixed;
+        top: 1.2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1.8rem;
+        border-radius: 50px;
+        background: rgba(8, 10, 16, 0.6);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 230, 118, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+
+    .navbar:hover {
+        border-color: rgba(0, 230, 118, 0.35);
+        box-shadow: 0 8px 40px rgba(0, 230, 118, 0.08);
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+    }
+
+    .nav-link {
+        color: rgba(240, 253, 244, 0.6);
+        text-decoration: none;
+        font-size: 0.82rem;
+        font-weight: 500;
+        padding: 0.4rem 0.8rem;
+        border-radius: 30px;
+        transition: color 0.3s ease, background 0.3s ease, transform 0.2s ease;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+
+    .nav-link:hover {
+        color: var(--accent, #00e676);
+        background: rgba(0, 230, 118, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .nav-link.active {
+        color: var(--accent, #00e676);
+        background: rgba(0, 230, 118, 0.12);
+        box-shadow: 0 0 12px rgba(0, 230, 118, 0.15);
+    }
+
+    /* Hamburger — oculto en desktop */
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        z-index: 1001;
+    }
+
+    .bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--accent, #00e676);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    /* Animación hamburger → X */
+    .hamburger.open .bar:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+    .hamburger.open .bar:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    .hamburger.open .bar:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 900px) {
+        .navbar {
+            padding: 0.5rem 1.2rem;
+            border-radius: 16px;
+            width: auto;
+            max-width: calc(100vw - 2rem);
+        }
+
+        .hamburger {
+            display: flex;
+        }
+
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.6rem);
+            right: 0;
+            flex-direction: column;
+            align-items: stretch;
+            background: rgba(8, 10, 16, 0.95);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 230, 118, 0.2);
+            border-radius: 16px;
+            padding: 0.8rem;
+            min-width: 200px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            gap: 0.2rem;
+        }
+
+        .nav-links.open {
+            display: flex;
+            animation: dropdown-in 0.25s ease;
+        }
+
+        @keyframes dropdown-in {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .nav-link:hover {
+            background: rgba(0, 230, 118, 0.1);
+        }
+    }
+
+    @media (max-width: 400px) {
+        .navbar {
+            top: 0.6rem;
+            padding: 0.4rem 0.8rem;
+        }
+    }
+</style>
+
+<script>
+    function initNavbar() {
+        const links = document.querySelectorAll<HTMLAnchorElement>(".nav-link");
+        const hamburger = document.getElementById("hamburger-btn");
+        const navLinks = document.getElementById("nav-links");
+
+        // Toggle hamburger menu
+        if (hamburger && navLinks) {
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("open");
+                navLinks.classList.toggle("open");
+            });
+
+            // Cerrar menú al seleccionar un enlace (móvil)
+            links.forEach((link) => {
+                link.addEventListener("click", () => {
+                    hamburger.classList.remove("open");
+                    navLinks.classList.remove("open");
+                });
+            });
+
+            // Cerrar al hacer clic fuera del menú
+            document.addEventListener("click", (e) => {
+                const target = e.target as HTMLElement;
+                if (!target.closest(".navbar")) {
+                    hamburger.classList.remove("open");
+                    navLinks.classList.remove("open");
+                }
+            });
+        }
+
+        // Smooth scroll via Lenis (globally available from Layout.astro)
+        links.forEach((link) => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const target = link.getAttribute("href");
+                if (target && (window as any).lenis) {
+                    (window as any).lenis.scrollTo(target, { duration: 1.4 });
+                } else if (target) {
+                    document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
+                }
+            });
+        });
+
+        // Active section highlight via IntersectionObserver
+        const sectionIds = ["inicio", "proyectos", "habilidades", "escritos", "cv", "llave-publica", "criptografia", "raices"];
+        const sections = sectionIds
+            .map((id) => document.getElementById(id))
+            .filter(Boolean) as HTMLElement[];
+
+        if (sections.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        links.forEach((l) => l.classList.remove("active"));
+                        const activeLink = document.querySelector(
+                            `.nav-link[data-section="${entry.target.id}"]`
+                        );
+                        activeLink?.classList.add("active");
+                    }
+                });
+            },
+            { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+        );
+
+        sections.forEach((s) => observer.observe(s));
+    }
+
+    document.addEventListener("astro:page-load", initNavbar);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initNavbar);
+    } else {
+        initNavbar();
+    }
+</script>

@@ -1,0 +1,97 @@
+---
+import Navbar from "../components/Navbar.astro";
+import TreeBackground from "../components/TreeBackground.astro";
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>GaelIUX | Portafolio</title>
+    </head>
+    <body>
+        <Navbar />
+        <TreeBackground />
+        <slot />
+        
+        <script is:inline src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+        <script is:inline>
+            // Smooth Scroll Awwwards-style
+            var lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smoothWheel: true,
+            });
+            // Expose globally for Navbar anchor navigation
+            window.lenis = lenis;
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+
+            requestAnimationFrame(raf);
+        </script>
+    </body>
+</html>
+
+<style is:global>
+    :root {
+        --bg-main: #080a10;
+        --text-main: #f0fdf4;
+        --accent: #00e676;
+        --bg-card: #0a3622;
+    }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    html {
+        font-family: system-ui, sans-serif;
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        /* Se elimina scroll-behavior porque Lenis se encarga globalmente */
+    }
+
+    /* Estilos globales de Secciones */
+    .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 0.4rem 1.2rem;
+        background: rgba(0, 230, 118, 0.1);
+        color: var(--accent);
+        border: 1px solid rgba(0, 230, 118, 0.3);
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        box-shadow: 0 0 15px rgba(0, 230, 118, 0.1);
+    }
+
+    .section-title {
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #a0aec0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+    }
+
+    .section-subtitle {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        max-width: 600px;
+        line-height: 1.6;
+    }
+</style>

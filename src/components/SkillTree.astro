@@ -1,0 +1,457 @@
+---
+/*
+ * Skill Tree v2 — Massive expansion with categories, sub-categories,
+ * hard/soft skill pairing, skillicons.dev + emoji + inline SVGs.
+ */
+
+// Each item is either a divider/subdiv or a skill pair
+const treeData: any[] = [
+    // ============== SOFTWARE ==============
+    { type: "divider", label: "Software" },
+
+    { type: "subdiv", label: "Office" },
+    { type: "pair", hard: { name: "Word", emoji: "📝" }, soft: { name: "Escritura fluida", svgKey: "pen" } },
+    { type: "pair", hard: { name: "Excel", emoji: "📊" }, soft: { name: "Gestión de proyectos", svgKey: "clipboard" } },
+    { type: "pair", hard: { name: "PowerPoint", emoji: "📎" }, soft: { name: "Comunicación Asertiva", svgKey: "waves" } },
+    { type: "pair", hard: { name: "Visio", emoji: "📐" } },
+    { type: "pair", hard: { name: "OneNote", emoji: "📓" } },
+
+    { type: "subdiv", label: "IDE & Herramientas" },
+    { type: "pair", hard: { name: "VS Code", icon: "vscode" }, soft: { name: "Mecanografía", svgKey: "keyboard" } },
+    { type: "pair", hard: { name: "Antigravity", emoji: "✨" }, soft: { name: "Proactividad", svgKey: "rocket" } },
+    { type: "pair", hard: { name: "NoSQL Workbench", emoji: "🗄️" } },
+    { type: "pair", hard: { name: "MySQL Workbench", icon: "mysql" } },
+    { type: "pair", hard: { name: "MatLab", icon: "matlab" }, soft: { name: "Resolución de Problemas", svgKey: "spark" } },
+    { type: "pair", hard: { name: "Lattice Diamond", emoji: "💎" } },
+
+    { type: "subdiv", label: "Sistemas Operativos" },
+    { type: "pair", hard: { name: "Windows", icon: "windows" } },
+    { type: "pair", hard: { name: "Linux", icon: "linux" } },
+    { type: "pair", hard: { name: "Ubuntu", icon: "ubuntu" } },
+    { type: "pair", hard: { name: "Linux Mint", emoji: "🌿" } },
+
+    { type: "subdiv", label: "Redes" },
+    { type: "pair", hard: { name: "Cisco Packet Tracer", emoji: "🌐" }, soft: { name: "Trabajo en Equipo", svgKey: "nodes" } },
+    { type: "pair", hard: { name: "GNS3", emoji: "🔗" }, soft: { name: "Liderazgo", svgKey: "star" } },
+
+    { type: "subdiv", label: "Diseño" },
+    { type: "pair", hard: { name: "Canva", emoji: "🎨" } },
+    { type: "pair", hard: { name: "Figma", icon: "figma" } },
+    { type: "pair", hard: { name: "Paint.net", emoji: "🖌️" } },
+
+    // ============== LENGUAJES ==============
+    { type: "divider", label: "Lenguajes" },
+    { type: "pair", hard: { name: "C", icon: "c" } },
+    { type: "pair", hard: { name: "C++", icon: "cpp" } },
+    { type: "pair", hard: { name: "Rust", icon: "rust" } },
+    { type: "pair", hard: { name: "HTML", icon: "html" } },
+    { type: "pair", hard: { name: "CSS", icon: "css" } },
+    { type: "pair", hard: { name: "Java", icon: "java" }, soft: { name: "Escucha Activa", svgKey: "ear" } },
+    { type: "pair", hard: { name: "JavaScript", icon: "js" } },
+    { type: "pair", hard: { name: "Astro", icon: "astro" } },
+    { type: "pair", hard: { name: "PHP", icon: "php" } },
+    { type: "pair", hard: { name: "MySQL (Lang)", icon: "mysql" } },
+    { type: "pair", hard: { name: "MongoDB", icon: "mongodb" } },
+    { type: "pair", hard: { name: "VHDL", emoji: "🔌" } },
+    { type: "pair", hard: { name: "Ensamblador", emoji: "⚙️" } },
+];
+
+// Counter for stagger delay
+let pairIndex = 0;
+---
+
+<section class="skill-tree-section" id="habilidades">
+    <div class="section-header reveal">
+        <span class="badge">Crecimiento</span>
+        <h2 class="section-title">Skill Tree</h2>
+        <p class="section-subtitle">Las raíces técnicas y las ramas humanas que sostienen cada proyecto.</p>
+    </div>
+
+    <div class="tree-container">
+        <div class="trunk"></div>
+
+        <div class="tree-nodes">
+            {treeData.map((item) => {
+                if (item.type === "divider") {
+                    return (
+                        <div class="tree-divider skill-reveal" style={`--delay: ${(pairIndex++) * 0.06}s`}>
+                            <span class="divider-label">{item.label}</span>
+                        </div>
+                    );
+                }
+                if (item.type === "subdiv") {
+                    return (
+                        <div class="tree-subdiv skill-reveal" style={`--delay: ${(pairIndex++) * 0.06}s`}>
+                            <span class="subdiv-label">{item.label}</span>
+                        </div>
+                    );
+                }
+
+                // type === "pair"
+                const idx = pairIndex++;
+                const hasSoft = !!item.soft;
+
+                return (
+                    <div class="tree-pair skill-reveal" style={`--delay: ${idx * 0.06}s`}>
+                        {/* LEFT: Hard Skill */}
+                        <div class="pair-left">
+                            <div class="branch-line left-branch"></div>
+                            <div class="node-card hard-node">
+                                {item.hard.icon ? (
+                                    <img
+                                        src={`https://skillicons.dev/icons?i=${item.hard.icon}&theme=dark`}
+                                        alt={item.hard.name}
+                                        class="skill-icon-img"
+                                        width="36"
+                                        height="36"
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <span class="emoji-icon">{item.hard.emoji}</span>
+                                )}
+                                <span class="skill-name">{item.hard.name}</span>
+                            </div>
+                        </div>
+
+                        {/* RIGHT: Soft Skill (optional) */}
+                        {hasSoft ? (
+                            <div class="pair-right">
+                                <div class="branch-line right-branch"></div>
+                                <div class="node-card soft-node">
+                                    <div class="blob-container">
+                                        {/* SVG Icons by key */}
+                                        {item.soft.svgKey === "pen" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 20h9" /><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838.838-2.872a2 2 0 0 1 .506-.854Z" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "clipboard" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="8" y="2" width="8" height="4" rx="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="M9 14l2 2 4-4" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "waves" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="3" /><circle cx="12" cy="12" r="6" opacity="0.6" /><circle cx="12" cy="12" r="9" opacity="0.3" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "keyboard" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "rocket" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "spark" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M12 2L12 6" /><path d="M12 18L12 22" /><path d="M4.93 4.93L7.76 7.76" /><path d="M16.24 16.24L19.07 19.07" /><path d="M2 12L6 12" /><path d="M18 12L22 12" /><path d="M4.93 19.07L7.76 16.24" /><path d="M16.24 7.76L19.07 4.93" /><circle cx="12" cy="12" r="4" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "nodes" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="6" cy="8" r="2.5" /><circle cx="18" cy="8" r="2.5" /><circle cx="12" cy="16" r="2.5" /><path d="M8.5 8L15.5 8" /><path d="M7.5 10L10.5 14.5" /><path d="M16.5 10L13.5 14.5" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "star" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                            </svg>
+                                        )}
+                                        {item.soft.svgKey === "ear" && (
+                                            <svg class="blob-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M6 8.5a6.5 6.5 0 1 1 13 0c0 6-6 6.5-6 10.5" /><path d="M13 22a1 1 0 1 1-2 0" /><path d="M15 8.5a2.5 2.5 0 0 0-5 0v1a2 2 0 0 0 4 0" />
+                                            </svg>
+                                        )}
+                                    </div>
+                                    <span class="skill-name">{item.soft.name}</span>
+                                </div>
+                            </div>
+                        ) : (
+                            <div class="pair-right empty"></div>
+                        )}
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+</section>
+
+<style>
+    .skill-tree-section {
+        padding: 4rem 10%;
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+    }
+
+    .tree-container {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+
+    /* Trunk */
+    .trunk {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, transparent, var(--accent) 5%, var(--accent) 95%, transparent);
+        transform: translateX(-50%);
+        box-shadow: 0 0 12px rgba(0, 230, 118, 0.3);
+        z-index: 1;
+    }
+
+    .tree-nodes {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ===== DIVIDERS ===== */
+    .tree-divider {
+        display: flex;
+        justify-content: center;
+        padding: 1.5rem 0 0.5rem;
+        position: relative;
+        z-index: 3;
+    }
+
+    .divider-label {
+        background: var(--accent);
+        color: #080a10;
+        padding: 0.4rem 1.6rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+    }
+
+    .tree-subdiv {
+        display: flex;
+        justify-content: center;
+        padding: 0.6rem 0 0.3rem;
+        position: relative;
+        z-index: 3;
+    }
+
+    .subdiv-label {
+        background: rgba(0, 230, 118, 0.1);
+        color: var(--accent);
+        padding: 0.25rem 1.2rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+        border: 1px solid rgba(0, 230, 118, 0.25);
+    }
+
+    /* ===== PAIRS ===== */
+    .tree-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        position: relative;
+        min-height: 56px;
+        align-items: center;
+    }
+
+    .pair-left {
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 2.5rem;
+        position: relative;
+    }
+
+    .pair-right {
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 2.5rem;
+        position: relative;
+    }
+
+    .pair-right.empty {
+        display: none;
+    }
+
+    /* Branch lines */
+    .branch-line {
+        position: absolute;
+        top: 50%;
+        height: 2px;
+        width: 2.5rem;
+        background: var(--accent);
+        opacity: 0.4;
+        box-shadow: 0 0 6px rgba(0, 230, 118, 0.2);
+    }
+
+    .left-branch { right: 0; }
+    .right-branch { left: 0; }
+
+    /* Node card */
+    .node-card {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.6rem 1rem;
+        background: var(--bg-card);
+        border: 1px solid rgba(0, 230, 118, 0.1);
+        border-radius: 14px;
+        transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+        cursor: default;
+        position: relative;
+        z-index: 2;
+    }
+
+    .node-card:hover {
+        box-shadow: 0 0 20px rgba(0, 230, 118, 0.2), 0 0 50px rgba(0, 230, 118, 0.06);
+        border-color: rgba(0, 230, 118, 0.3);
+        transform: scale(1.03);
+    }
+
+    /* Icons */
+    .skill-icon-img {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+
+    .emoji-icon {
+        font-size: 1.6rem;
+        line-height: 1;
+        flex-shrink: 0;
+        width: 36px;
+        text-align: center;
+    }
+
+    .skill-name {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-main);
+        white-space: nowrap;
+    }
+
+    /* ===== SOFT SKILL BLOB ===== */
+    .blob-container {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        display: grid;
+        place-items: center;
+        background: rgba(0, 230, 118, 0.1);
+        animation: blob-morph 8s ease-in-out infinite;
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    @keyframes blob-morph {
+        0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        25%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        50%  { border-radius: 50% 60% 30% 60% / 40% 70% 50% 60%; }
+        75%  { border-radius: 40% 60% 50% 40% / 60% 40% 60% 50%; }
+        100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    }
+
+    .blob-icon {
+        width: 22px;
+        height: 22px;
+        color: var(--accent);
+        filter: drop-shadow(0 0 5px rgba(0, 230, 118, 0.5));
+    }
+
+    .soft-node:hover .blob-container {
+        background: rgba(0, 230, 118, 0.2);
+    }
+
+    .soft-node:hover .blob-icon {
+        filter: drop-shadow(0 0 10px rgba(0, 230, 118, 0.9));
+    }
+
+    /* ===== REVEAL ANIMATION ===== */
+    .skill-reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition-delay: var(--delay, 0s);
+    }
+
+    .skill-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+        .skill-tree-section {
+            padding: 3rem 4%;
+        }
+
+        .trunk {
+            left: 20px;
+        }
+
+        .tree-pair {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+
+        .pair-left,
+        .pair-right {
+            justify-content: flex-start;
+            padding-left: 3rem;
+            padding-right: 0;
+        }
+
+        .pair-right.empty { display: none; }
+
+        .left-branch,
+        .right-branch {
+            left: -0.8rem;
+            right: auto;
+            width: 0.8rem;
+        }
+
+        .tree-divider,
+        .tree-subdiv {
+            justify-content: flex-start;
+            padding-left: 3rem;
+        }
+    }
+</style>
+
+<script>
+    function initSkillTree() {
+        const nodes = document.querySelectorAll(".skill-reveal");
+        if (nodes.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
+        );
+
+        nodes.forEach((n) => observer.observe(n));
+    }
+
+    document.addEventListener("astro:page-load", initSkillTree);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initSkillTree);
+    } else {
+        initSkillTree();
+    }
+</script>

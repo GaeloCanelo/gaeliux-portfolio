@@ -1,0 +1,159 @@
+<!-- Bosque Mágico — Fondo inmersivo de scroll vertical.
+     Cada capa es position:absolute y se ubica en coordenadas fijas
+     relativas a la página completa. El JS mide la altura total del
+     documento y posiciona el tronco y las raíces dinámicamente. -->
+<div class="tree-bg" id="tree-bg" aria-hidden="true">
+    <!-- Capa 1: Follaje — anclado al tope -->
+    <div class="tree-foliage"></div>
+
+    <!-- Capa 2: Ramas — solapadas bajo el follaje -->
+    <div class="tree-ramas"></div>
+
+    <!-- Capa 3: Tronco — se posiciona y estira dinámicamente con JS -->
+    <div class="tree-trunk" id="tree-trunk"></div>
+
+    <!-- Capa 4: Raíces — ancladas al fondo del documento -->
+    <div class="tree-roots" id="tree-roots"></div>
+</div>
+
+<style>
+    .tree-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        /* La altura se actualiza con JS para cubrir todo el documento */
+        min-height: 100%;
+        z-index: -2;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.7;
+    }
+
+    /* === Capa 1: Follaje ===
+       Panorámica ~1400×780. Borde a borde desde el tope. */
+    .tree-foliage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 45vw;
+        max-height: 600px;
+        background: url("/tree/Follaje.png") center top / cover no-repeat;
+    }
+
+    /* === Capa 2: Ramas ===
+       ~1400×770. Copa completa del árbol. */
+    .tree-ramas {
+        position: absolute;
+        margin-top: 15%;
+        margin-right: 10%;
+        top: 20vw; /* Comienza ligeramente antes de que acabe el follaje */
+        left: 0;
+        width: 100%;
+        height: 30vw;
+        max-height: 650px;
+        background: url("/tree/Ramas.png") center top / contain no-repeat;
+    }
+
+    /* === Capa 3: Tronco ===
+       ~780×1460, angosto. Se repite verticalmente.
+       El top y height se calculan con JS. */
+    .tree-trunk {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 280px;
+        visibility: hidden; /* Oculto hasta que JS posicione */
+        /* top y height se asignan desde JS */
+        background-image: url("/tree/Tronco.png");
+        background-repeat: repeat-y;
+        background-position: center top;
+        background-size: 100% auto;
+    }
+
+    /* === Capa 4: Raíces ===
+       ~1400×810. Se posiciona al fondo con JS. */
+    .tree-roots {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 20vw;
+        max-height: 600px;
+        visibility: hidden; /* Oculto hasta que JS posicione */
+        /* top se asigna desde JS */
+        background: url("/tree/Raíces.png") center bottom / contain no-repeat;
+    }
+
+    @media (max-width: 768px) {
+        .tree-bg {
+            opacity: 0.4;
+        }
+        .tree-foliage {
+            height: 35vw;
+        }
+        .tree-ramas {
+            top: 22vw;
+            height: 40vw;
+        }
+        .tree-trunk {
+            width: 160px;
+        }
+        .tree-roots {
+            height: 35vw;
+        }
+    }
+</style>
+
+<script>
+    function positionTree() {
+        const bg = document.getElementById("tree-bg");
+        const trunk = document.getElementById("tree-trunk");
+        const roots = document.getElementById("tree-roots");
+        if (!bg || !trunk || !roots) return;
+
+        // Medir la altura total del documento
+        const docHeight = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight,
+        );
+
+        // El contenedor cubre todo el documento
+        bg.style.height = docHeight + "px";
+
+        // El tronco empieza donde terminan las ramas (~65vw desde arriba, max ~1100px)
+        const trunkTop = Math.min(window.innerWidth * 0.65, 1100);
+        // Las raíces tienen su altura
+        const rootsHeight = Math.min(window.innerWidth * 0.45, 600);
+        // El tronco se extiende desde debajo de las ramas hasta el inicio de las raíces
+        const trunkHeight = docHeight - trunkTop - rootsHeight;
+
+        trunk.style.top = trunkTop + "px";
+        trunk.style.height = Math.max(trunkHeight, 400) + "px";
+        trunk.style.visibility = "visible";
+
+        // Las raíces se anclan al fondo absoluto
+        roots.style.top = docHeight - rootsHeight + "px";
+        roots.style.visibility = "visible";
+    }
+
+    // Ejecutar al cargar y en resize
+    function initTree() {
+        positionTree();
+        window.addEventListener("resize", positionTree);
+        // Recalcular después de que todo el contenido haya cargado completamente
+        window.addEventListener("load", positionTree);
+        // Recalcular periódicamente por si el contenido cambia dinámicamente
+        setTimeout(positionTree, 1000);
+        setTimeout(positionTree, 3000);
+    }
+
+    document.addEventListener("astro:page-load", initTree);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initTree);
+    } else {
+        initTree();
+    }
+</script>

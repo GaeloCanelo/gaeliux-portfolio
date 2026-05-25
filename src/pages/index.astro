@@ -1,0 +1,1185 @@
+---
+import GithubShowcase from "../components/GithubShowcase.astro";
+import ParticlesBackground from "../components/ParticlesBackground.astro";
+import SkillTree from "../components/SkillTree.astro";
+import Footer from "../components/Footer.astro";
+import Layout from "../layouts/Layout.astro";
+
+const proyectos = [
+	{
+		title: "GaelIUX Portfolio",
+		description: "Portafolio personal inmersivo construido con Astro, CSS Vanilla y JavaScript. Fondo de bosque mágico con parallax, Skill Tree interactivo y carruseles multimedia.",
+		tags: ["Astro", "CSS", "JavaScript"],
+		github: "https://github.com/GaeloCanelo/gaeliux-portfolio",
+	},
+	{
+		title: "Agente GNS3",
+		description: "Agente de automatización para GNS3 basado en MCP Server. Despliega topologías de red completas, configura dispositivos Cisco y genera documentación automáticamente.",
+		tags: ["Node.js", "GNS3", "Networking"],
+		github: "https://github.com/GaeloCanelo/Agente_GNS3",
+	},
+	{
+		title: "Sistema de Chat Distribuido",
+		description: "Aplicación de mensajería distribuida en Rust con cifrado híbrido RSA+AES, servidor relay central y GUI con egui/eframe.",
+		tags: ["Rust", "Criptografía", "Tokio"],
+		github: "https://github.com/GaeloCanelo",
+	},
+];
+
+const poemasCreativos: string[] = [
+	"/escritos/escritura_creativa/poema1.jpg",
+	"/escritos/escritura_creativa/poema2.jpg",
+	"/escritos/escritura_creativa/poema3.jpg",
+	"/escritos/escritura_creativa_videos/1_metamorfosis_1.mp4",
+	"/escritos/escritura_creativa_videos/1_metamorfosis_2.mp4",
+	"/escritos/escritura_creativa_videos/2_altruista_1.mp4",
+	"/escritos/escritura_creativa_videos/2_altruista_2.mp4",
+	"/escritos/escritura_creativa_videos/3_ansiosa_1.mp4",
+	"/escritos/escritura_creativa_videos/3_ansiosa_2.mp4",
+	"/escritos/escritura_creativa_videos/4_velo.mp4",
+	"/escritos/escritura_creativa_videos/5_geometria.mp4",
+	"/escritos/escritura_creativa_videos/6_veredicto.mp4",
+	"/escritos/escritura_creativa_videos/7_humano.mp4",
+	"/escritos/escritura_creativa_videos/8_peace.mp4",
+	"/escritos/escritura_creativa_videos/9_efimera.mp4",
+	"/escritos/escritura_creativa_videos/10_olor.mp4",
+	"/escritos/escritura_creativa_videos/11_luz.mp4",
+	"/escritos/escritura_creativa_videos/12_cauce.mp4",
+	"/escritos/escritura_creativa_videos/13_astros.mp4",
+];
+
+const fabulas: string[] = [
+	"/escritos/fabulas/fabula1_1.jpg",
+	"/escritos/fabulas/fabula1_2.jpg",
+	"/escritos/fabulas/fabula1_3.jpg",
+	"/escritos/fabulas/fabula1_4.jpg",
+	"/escritos/fabulas/fabula1_5.jpg",
+];
+---
+
+<Layout>
+	<ParticlesBackground />
+	<main class="hero-container" id="inicio">
+		<div class="text-column">
+			<h1 class="title hero-title">
+				<span class="hero-gael">Gael</span><span class="hero-iux"
+					>IUX</span
+				>
+			</h1>
+			<p class="subtitle">
+				Arquitecto de Experiencias Digitales y Visuales. <br /> Ingeniero
+				en Sistemas Computacionales.
+			</p>
+		</div>
+
+		<div class="image-column">
+			<img src="/perfil.png" alt="Foto de perfil" class="profile-img" />
+		</div>
+	</main>
+
+	<section class="projects-section" id="proyectos">
+		<div class="section-header reveal">
+			<span class="badge">Portafolio</span>
+			<h2 class="section-title">Proyectos Destacados</h2>
+			<p class="section-subtitle">
+				Soluciones tecnológicas que resultan de mi experimentación con
+				frontend, backend y arquitectura de software.
+			</p>
+		</div>
+
+		<div class="projects-grid">
+			{
+				proyectos.map((proyecto) => (
+					<article class="card">
+						<h3>{proyecto.title}</h3>
+						<p>{proyecto.description}</p>
+
+						<div class="tags">
+							{proyecto.tags.map((tag) => (
+								<span class="tag">{tag}</span>
+							))}
+						</div>
+
+						{proyecto.github && (
+							<a
+								href={proyecto.github}
+								target="_blank"
+								class="link-btn"
+							>
+								Ver en GitHub
+							</a>
+						)}
+					</article>
+				))
+			}
+		</div>
+
+		<!-- Repo carousel integrated under projects -->
+		<GithubShowcase />
+	</section>
+
+	<SkillTree />
+
+	<section class="poems-section" id="escritos">
+		<div class="section-header reveal">
+			<span class="badge">Arte y Pensamiento</span>
+			<h2 class="section-title">Escritos y Poemas</h2>
+		</div>
+
+		<!-- Carousel 1: Escritura Creativa -->
+		<div class="carousel-sub-section">
+			<h3 class="carousel-sub-title">Escritura Creativa</h3>
+			<p class="carousel-sub-desc">
+				Fragmentos de imaginación. Un punto de encuentro libre entre la
+				lógica rigurosa y mi lado más creativo.
+			</p>
+
+			<div class="carousel-wrapper poem-carousel-wrapper">
+				<button
+					class="nav-btn prev-btn"
+					data-carousel="creative-carousel">❮</button
+				>
+				<div class="carousel-container" id="creative-carousel">
+					<div class="carousel-track">
+						{
+							poemasCreativos.map((src) => (
+								<div class="carousel-card">
+									{src.endsWith(".mp4") ? (
+										<video
+											src={src}
+											autoplay
+											loop
+											muted
+											playsinline
+											class="carousel-media zoomable-media"
+										/>
+									) : (
+										<img
+											src={src}
+											class="carousel-media zoomable-media"
+											alt="Escritura creativa"
+											loading="lazy"
+										/>
+									)}
+								</div>
+							))
+						}
+					</div>
+				</div>
+				<button
+					class="nav-btn next-btn"
+					data-carousel="creative-carousel">❯</button
+				>
+			</div>
+		</div>
+
+		<!-- Carousel 2: Fábulas -->
+		<div class="carousel-sub-section">
+			<h3 class="carousel-sub-title">Fábulas</h3>
+			<p class="carousel-sub-desc">
+				Pequeñas historias con grandes lecciones. Relatos donde
+				animales, naturaleza y magia revelan verdades eternas sobre la
+				vida y el espíritu humano.
+			</p>
+
+			<div class="carousel-wrapper poem-carousel-wrapper">
+				<button class="nav-btn prev-btn" data-carousel="fables-carousel"
+					>❮</button
+				>
+				<div class="carousel-container" id="fables-carousel">
+					<div class="carousel-track">
+						{
+							fabulas.map((src) => (
+								<div class="carousel-card">
+									{src.endsWith(".mp4") ? (
+										<video
+											src={src}
+											autoplay
+											loop
+											muted
+											playsinline
+											class="carousel-media zoomable-media"
+										/>
+									) : (
+										<img
+											src={src}
+											class="carousel-media zoomable-media"
+											alt="Fábula"
+											loading="lazy"
+										/>
+									)}
+								</div>
+							))
+						}
+					</div>
+				</div>
+				<button class="nav-btn next-btn" data-carousel="fables-carousel"
+					>❯</button
+				>
+			</div>
+		</div>
+	</section>
+
+	<!-- ===== SECCIÓN: CV ===== -->
+	<section class="cv-section" id="cv">
+		<div class="section-header reveal">
+			<span class="badge">Profesional</span>
+			<h2 class="section-title">Currículum Vitae</h2>
+			<p class="section-subtitle">
+				Mi trayectoria académica y profesional en un vistazo.
+			</p>
+		</div>
+
+		<div class="cv-container">
+			<div class="cv-preview">
+				<iframe
+					src="/CV/Curr%C3%ADculum.pdf"
+					title="Currículum Vitae - GaelIUX"
+					class="cv-iframe"
+					loading="lazy"
+				></iframe>
+			</div>
+			<div class="cv-actions">
+				<a
+					href="/CV/Curr%C3%ADculum.pdf"
+					download="Curriculum_GaelIUX.pdf"
+					class="cv-download-btn"
+				>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cv-icon">
+						<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+						<polyline points="7 10 12 15 17 10" />
+						<line x1="12" y1="15" x2="12" y2="3" />
+					</svg>
+					Descargar CV
+				</a>
+				<a
+					href="/CV/Curr%C3%ADculum.pdf"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="cv-open-btn"
+				>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cv-icon">
+						<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+						<polyline points="15 3 21 3 21 9" />
+						<line x1="10" y1="14" x2="21" y2="3" />
+					</svg>
+					Abrir en nueva pestaña
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- ===== SECCIÓN: LLAVE PÚBLICA ===== -->
+	<section class="publickey-section" id="llave-publica">
+		<div class="section-header reveal">
+			<span class="badge">Seguridad</span>
+			<h2 class="section-title">Llave Pública</h2>
+			<p class="section-subtitle">
+				Para comunicaciones cifradas y verificación de identidad digital.
+			</p>
+		</div>
+
+		<div class="publickey-container">
+			<div class="publickey-card">
+				<div class="publickey-icon-wrapper">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="publickey-icon">
+						<path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4" />
+					</svg>
+				</div>
+				<h3 class="publickey-title">RSA Public Key</h3>
+				<p class="publickey-desc">
+					La llave pública RSA estará disponible próximamente, una vez completada la práctica de cifrado asimétrico.
+				</p>
+				<span class="publickey-status">
+					<span class="status-dot"></span>
+					Próximamente
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<!-- ===== SECCIÓN: CRIPTOGRAFÍA ===== -->
+	<section class="crypto-section" id="criptografia">
+		<div class="section-header reveal">
+			<span class="badge">Conocimiento</span>
+			<h2 class="section-title">Criptografía</h2>
+			<p class="section-subtitle">Acerca de Criptografía</p>
+		</div>
+
+		<div class="crypto-grid">
+			<!-- Tarjeta 1: Biografía de Alan Turing -->
+			<article class="crypto-card crypto-biography">
+				<div class="crypto-card-header">
+					<span class="crypto-badge bio-badge">Biografía</span>
+					<h3>Alan Turing</h3>
+					<span class="crypto-date">1912 — 1954</span>
+				</div>
+				<div class="crypto-card-body">
+					<p>
+						Alan Mathison Turing fue un matemático, lógico, informático teórico y criptógrafo británico, ampliamente considerado como el padre de la ciencia de la computación y de la inteligencia artificial.
+					</p>
+					<p>
+						Durante la Segunda Guerra Mundial, trabajó en Bletchley Park como jefe del equipo Hut 8, donde diseñó la <strong>bomba electromecánica</strong>, una máquina capaz de descifrar los mensajes encriptados por la máquina Enigma utilizada por la Alemania Nazi. Se estima que su trabajo acortó la guerra entre 2 y 4 años, salvando millones de vidas.
+					</p>
+					<p>
+						En 1936 publicó su célebre artículo <em>"On Computable Numbers"</em>, donde formalizó los conceptos de algoritmo y computación mediante la <strong>Máquina de Turing</strong>, un modelo teórico que sentó las bases de toda la informática moderna. Su legado incluye el <strong>Test de Turing</strong>, la primera propuesta formal para evaluar la inteligencia de una máquina.
+					</p>
+				</div>
+			</article>
+
+			<!-- Tarjeta 2: Historia de un algoritmo — La Máquina Enigma -->
+			<article class="crypto-card crypto-algorithm">
+				<div class="crypto-card-header">
+					<span class="crypto-badge algo-badge">Algoritmo</span>
+					<h3>La Máquina Enigma</h3>
+					<span class="crypto-date">1918 — 1945</span>
+				</div>
+				<div class="crypto-card-body">
+					<p>
+						La máquina Enigma fue un dispositivo de cifrado electromecánico inventado por el ingeniero alemán <strong>Arthur Scherbius</strong> en 1918. Utilizaba un sistema de rotores intercambiables y un reflector que creaba sustituciones polialfabéticas, generando un espacio de claves de aproximadamente <strong>158 billones de combinaciones</strong>.
+					</p>
+					<p>
+						Su diseño era elegante: cada pulsación de tecla hacía girar los rotores, cambiando completamente la tabla de sustitución para la siguiente letra. Esto la hacía extraordinariamente difícil de descifrar con los métodos de la época.
+					</p>
+					<p>
+						El primer quiebre fue logrado por el matemático polaco <strong>Marian Rejewski</strong> en 1932, utilizando teoría de permutaciones. Más tarde, Alan Turing perfeccionó estas técnicas con su bomba criptográfica en Bletchley Park, explotando debilidades operativas como la prohibición de que una letra se cifrara a sí misma.
+					</p>
+				</div>
+			</article>
+
+			<!-- Tarjeta 3: Evento importante — Nacimiento de RSA -->
+			<article class="crypto-card crypto-event">
+				<div class="crypto-card-header">
+					<span class="crypto-badge event-badge">Evento Histórico</span>
+					<h3>El nacimiento de RSA</h3>
+					<span class="crypto-date">1977</span>
+				</div>
+				<div class="crypto-card-body">
+					<p>
+						En 1977, los matemáticos <strong>Ron Rivest</strong>, <strong>Adi Shamir</strong> y <strong>Leonard Adleman</strong> del MIT publicaron el algoritmo <strong>RSA</strong>, el primer sistema práctico de criptografía de clave pública. Este avance revolucionario resolvió el problema fundamental de la distribución de claves.
+					</p>
+					<p>
+						RSA se basa en la dificultad computacional de factorizar números semiprimos grandes (producto de dos primos). Mientras que multiplicar dos primos de 300 dígitos toma milisegundos, factorizar su producto podría llevar más tiempo que la edad del universo con la tecnología actual.
+					</p>
+					<p>
+						Hoy, RSA sigue siendo la columna vertebral de la seguridad digital: protege transacciones bancarias, comunicaciones HTTPS, firmas digitales y el cifrado de correo electrónico. Su elegancia matemática lo convierte en uno de los inventos más influyentes del siglo XX.
+					</p>
+				</div>
+			</article>
+		</div>
+	</section>
+
+	<!-- Global Media Modal (imagen + video) -->
+	<dialog id="media-modal" class="media-modal">
+		<button class="close-media-btn" aria-label="Cerrar">✕</button>
+		<img
+			id="modal-image"
+			src=""
+			alt="Escritura en grande"
+			style="display:none;"
+		/>
+		<video id="modal-video" src="" controls style="display:none;"></video>
+	</dialog>
+
+	<Footer />
+</Layout>
+
+<style>
+	/* ===== HERO ===== */
+	.hero-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 100vh;
+		padding: 0 10%;
+		gap: 4rem;
+		position: relative;
+		z-index: 2;
+	}
+
+	/* Hero Animation */
+	.hero-title {
+		display: inline-flex;
+		align-items: baseline;
+		font-size: 5rem;
+		animation: hero-glow 3s ease forwards;
+	}
+
+	.hero-gael {
+		color: var(--text-main);
+		opacity: 0;
+		animation: gael-appear 0.6s ease 0.2s forwards;
+	}
+
+	.hero-iux {
+		color: var(--accent);
+		opacity: 0;
+		letter-spacing: 0.8em;
+		animation: iux-fusion 1.8s cubic-bezier(0.25, 1, 0.5, 1) 0.5s forwards;
+	}
+
+	@keyframes gael-appear {
+		from {
+			opacity: 0;
+			transform: translateX(-20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	@keyframes iux-fusion {
+		0% {
+			opacity: 0;
+			letter-spacing: 1.2em;
+			transform: translateX(30px);
+		}
+		35% {
+			opacity: 0.6;
+			letter-spacing: 0.5em;
+			transform: translateX(15px);
+		}
+		70% {
+			opacity: 1;
+			letter-spacing: 0.05em;
+			transform: translateX(2px);
+		}
+		100% {
+			opacity: 1;
+			letter-spacing: normal;
+			transform: translateX(0);
+		}
+	}
+
+	@keyframes hero-glow {
+		0%,
+		75% {
+			text-shadow: none;
+		}
+		88% {
+			text-shadow:
+				0 0 50px rgba(0, 230, 118, 0.8),
+				0 0 100px rgba(0, 230, 118, 0.4),
+				0 0 150px rgba(0, 230, 118, 0.2);
+		}
+		100% {
+			text-shadow: 0 0 15px rgba(0, 230, 118, 0.15);
+		}
+	}
+
+	.subtitle {
+		font-size: 1.2rem;
+	}
+
+	/* Profile Image Pulse */
+	.profile-img {
+		width: 300px;
+		height: 300px;
+		border-radius: 50%;
+		border: 4px solid var(--accent);
+		animation: profile-pulse 4s ease-in-out infinite;
+	}
+
+	@keyframes profile-pulse {
+		0%,
+		100% {
+			box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
+			transform: scale(1);
+		}
+		50% {
+			box-shadow:
+				0 0 40px rgba(0, 230, 118, 0.45),
+				0 0 80px rgba(0, 230, 118, 0.12);
+			transform: scale(1.02);
+		}
+	}
+
+	/* ===== PROJECTS ===== */
+	.projects-section,
+	.poems-section,
+	.github-showcase {
+		padding: 4rem 10%;
+		position: relative;
+		z-index: 2;
+	}
+
+	.section-title {
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+	}
+
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.card {
+		background: var(--bg-card);
+		padding: 2rem;
+		border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+		border: 1px solid rgba(0, 230, 118, 0.08);
+		transition:
+			border-radius 0.6s ease,
+			box-shadow 0.4s ease,
+			border-color 0.4s ease;
+	}
+
+	.card:hover {
+		border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+		box-shadow: 0 0 25px rgba(0, 230, 118, 0.12);
+		border-color: rgba(0, 230, 118, 0.2);
+	}
+
+	.tags {
+		display: flex;
+		gap: 0.5rem;
+		margin: 1rem 0;
+		flex-wrap: wrap;
+	}
+
+	.tag {
+		background: rgba(0, 230, 118, 0.1);
+		padding: 0.3rem 0.8rem;
+		border-radius: 999px;
+	}
+
+	.link-btn {
+		padding: 0.5rem 1rem;
+		border: 2px solid var(--accent);
+		color: var(--accent);
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	/* ===== POEMS / CAROUSELS ===== */
+	.carousel-sub-section {
+		margin-bottom: 3rem;
+	}
+
+	.carousel-sub-title {
+		text-align: center;
+		font-size: 1.6rem;
+		font-weight: 700;
+		color: var(--accent);
+		margin-bottom: 0.5rem;
+	}
+
+	.carousel-sub-desc {
+		text-align: center;
+		color: #94a3b8;
+		font-size: 0.95rem;
+		max-width: 550px;
+		margin: 0 auto 1.5rem;
+		line-height: 1.5;
+	}
+
+	.poem-carousel-wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.carousel-container {
+		overflow: hidden;
+		width: 100%;
+		padding: 2rem 0;
+		--card-width: calc((100% - 4rem) / 3);
+	}
+
+	.carousel-track {
+		display: flex;
+		gap: 2rem;
+		width: max-content;
+		transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+	}
+
+	.carousel-card {
+		flex: 0 0 auto;
+		width: var(--card-width);
+		min-width: 320px;
+		max-width: 420px;
+		scroll-snap-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.carousel-media {
+		height: 480px;
+		width: auto;
+		max-width: 100%;
+		object-fit: contain;
+		cursor: zoom-in;
+		display: block;
+		border-radius: 24px 12px 20px 8px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		transition:
+			transform 0.4s ease,
+			box-shadow 0.4s ease,
+			border-radius 0.6s ease;
+	}
+
+	.carousel-media:hover {
+		transform: translateY(-10px);
+		box-shadow: 0 15px 40px rgba(0, 230, 118, 0.2);
+		border-radius: 12px 24px 8px 20px;
+	}
+
+	.nav-btn {
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		border: none;
+		border-radius: 50%;
+		background: var(--bg-card);
+		color: var(--accent);
+		cursor: pointer;
+		z-index: 5;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.3s;
+		font-size: 1.2rem;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	}
+
+	.nav-btn:hover {
+		background: #333;
+		transform: scale(1.15);
+		box-shadow: 0 5px 25px rgba(0, 230, 118, 0.4);
+	}
+
+	.prev-btn {
+		left: -30px;
+	}
+	.next-btn {
+		right: -30px;
+	}
+
+	@media (max-width: 768px) {
+		.hero-title {
+			font-size: 3rem;
+		}
+		.hero-container {
+			flex-direction: column;
+			gap: 2rem;
+			padding: 0 5%;
+		}
+		.profile-img {
+			width: 200px;
+			height: 200px;
+		}
+
+		.nav-btn {
+			display: none;
+		}
+		.carousel-container {
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			scroll-behavior: smooth;
+			scrollbar-width: none;
+		}
+		.carousel-container::-webkit-scrollbar {
+			display: none;
+		}
+		.carousel-track {
+			transition: none;
+			transform: none !important;
+		}
+		.carousel-card {
+			scroll-snap-align: center;
+		}
+	}
+
+	/* ===== MEDIA MODAL ===== */
+	.media-modal {
+		border: none;
+		border-radius: 12px;
+		background: transparent;
+		padding: 0;
+		margin: auto;
+		max-width: 100vw;
+		max-height: 100vh;
+		overflow: visible;
+		position: relative;
+	}
+
+	.media-modal::backdrop {
+		background: rgba(0, 0, 0, 0.88);
+		backdrop-filter: blur(10px);
+	}
+
+	.media-modal img,
+	.media-modal video {
+		max-height: 90vh;
+		max-width: 90vw;
+		border-radius: 12px;
+		box-shadow: 0 0 50px rgba(0, 230, 118, 0.3);
+		display: block;
+	}
+
+	.close-media-btn {
+		position: absolute;
+		top: -40px;
+		right: 0;
+		background: transparent;
+		border: none;
+		color: white;
+		font-size: 2rem;
+		cursor: pointer;
+		transition: color 0.3s;
+	}
+
+	.close-media-btn:hover {
+		color: var(--accent);
+	}
+
+	.media-modal[open] {
+		animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	@keyframes zoomIn {
+		from {
+			transform: scale(0.8);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+
+	/* ===== CV SECTION ===== */
+	.cv-section,
+	.publickey-section,
+	.crypto-section {
+		padding: 4rem 10%;
+		position: relative;
+		z-index: 2;
+	}
+
+	.cv-container {
+		max-width: 900px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2rem;
+	}
+
+	.cv-preview {
+		width: 100%;
+		border-radius: 16px;
+		overflow: hidden;
+		border: 1px solid rgba(0, 230, 118, 0.15);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+		background: #111;
+	}
+
+	.cv-iframe {
+		width: 100%;
+		height: 700px;
+		border: none;
+		display: block;
+	}
+
+	.cv-actions {
+		display: flex;
+		gap: 1.2rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.cv-download-btn,
+	.cv-open-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.8rem 1.8rem;
+		border-radius: 50px;
+		font-size: 0.95rem;
+		font-weight: 600;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+
+	.cv-download-btn {
+		background: var(--accent);
+		color: #080a10;
+		box-shadow: 0 4px 20px rgba(0, 230, 118, 0.3);
+	}
+
+	.cv-download-btn:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 8px 30px rgba(0, 230, 118, 0.5);
+	}
+
+	.cv-open-btn {
+		background: transparent;
+		color: var(--accent);
+		border: 2px solid rgba(0, 230, 118, 0.3);
+	}
+
+	.cv-open-btn:hover {
+		background: rgba(0, 230, 118, 0.08);
+		border-color: var(--accent);
+		transform: translateY(-3px);
+	}
+
+	.cv-icon {
+		width: 20px;
+		height: 20px;
+		flex-shrink: 0;
+	}
+
+	/* ===== PUBLIC KEY SECTION ===== */
+	.publickey-container {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.publickey-card {
+		background: var(--bg-card);
+		border: 1px solid rgba(0, 230, 118, 0.12);
+		border-radius: 20px;
+		padding: 3rem;
+		text-align: center;
+		transition: border-color 0.4s ease, box-shadow 0.4s ease;
+	}
+
+	.publickey-card:hover {
+		border-color: rgba(0, 230, 118, 0.3);
+		box-shadow: 0 0 40px rgba(0, 230, 118, 0.08);
+	}
+
+	.publickey-icon-wrapper {
+		width: 80px;
+		height: 80px;
+		margin: 0 auto 1.5rem;
+		background: rgba(0, 230, 118, 0.08);
+		border-radius: 50%;
+		display: grid;
+		place-items: center;
+		animation: key-pulse 3s ease-in-out infinite;
+	}
+
+	@keyframes key-pulse {
+		0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.15); }
+		50% { box-shadow: 0 0 0 15px rgba(0, 230, 118, 0); }
+	}
+
+	.publickey-icon {
+		width: 36px;
+		height: 36px;
+		color: var(--accent);
+		filter: drop-shadow(0 0 8px rgba(0, 230, 118, 0.5));
+	}
+
+	.publickey-title {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: var(--text-main);
+		margin-bottom: 0.8rem;
+	}
+
+	.publickey-desc {
+		color: rgba(240, 253, 244, 0.6);
+		font-size: 0.95rem;
+		line-height: 1.6;
+		margin-bottom: 1.5rem;
+	}
+
+	.publickey-status {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: #fbbf24;
+		font-size: 0.85rem;
+		font-weight: 600;
+		letter-spacing: 0.5px;
+	}
+
+	.status-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: #fbbf24;
+		animation: dot-blink 1.5s ease-in-out infinite;
+	}
+
+	@keyframes dot-blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.3; }
+	}
+
+	/* ===== CRYPTOGRAPHY SECTION ===== */
+	.crypto-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 2rem;
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.crypto-card {
+		background: var(--bg-card);
+		border: 1px solid rgba(0, 230, 118, 0.08);
+		border-radius: 20px;
+		overflow: hidden;
+		transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+	}
+
+	.crypto-card:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+		border-color: rgba(0, 230, 118, 0.2);
+	}
+
+	.crypto-card-header {
+		padding: 1.8rem 1.8rem 1rem;
+		border-bottom: 1px solid rgba(0, 230, 118, 0.06);
+	}
+
+	.crypto-card-header h3 {
+		font-size: 1.4rem;
+		font-weight: 700;
+		color: var(--text-main);
+		margin: 0.6rem 0 0.3rem;
+	}
+
+	.crypto-badge {
+		display: inline-block;
+		padding: 0.25rem 0.9rem;
+		border-radius: 50px;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.8px;
+		text-transform: uppercase;
+	}
+
+	.bio-badge {
+		background: rgba(99, 102, 241, 0.15);
+		color: #818cf8;
+		border: 1px solid rgba(99, 102, 241, 0.25);
+	}
+
+	.algo-badge {
+		background: rgba(244, 63, 94, 0.15);
+		color: #fb7185;
+		border: 1px solid rgba(244, 63, 94, 0.25);
+	}
+
+	.event-badge {
+		background: rgba(0, 230, 118, 0.12);
+		color: var(--accent);
+		border: 1px solid rgba(0, 230, 118, 0.25);
+	}
+
+	.crypto-date {
+		font-size: 0.8rem;
+		color: rgba(240, 253, 244, 0.4);
+		font-weight: 500;
+	}
+
+	.crypto-card-body {
+		padding: 1.5rem 1.8rem 2rem;
+	}
+
+	.crypto-card-body p {
+		color: rgba(240, 253, 244, 0.7);
+		font-size: 0.9rem;
+		line-height: 1.7;
+		margin-bottom: 0.8rem;
+	}
+
+	.crypto-card-body p:last-child {
+		margin-bottom: 0;
+	}
+
+	.crypto-card-body strong {
+		color: var(--accent);
+		font-weight: 600;
+	}
+
+	.crypto-card-body em {
+		color: rgba(240, 253, 244, 0.85);
+	}
+
+	@media (max-width: 768px) {
+		.cv-iframe {
+			height: 450px;
+		}
+		.cv-actions {
+			flex-direction: column;
+			align-items: stretch;
+		}
+		.cv-download-btn,
+		.cv-open-btn {
+			justify-content: center;
+		}
+		.crypto-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	function initCarousel(carouselId: string) {
+		const carousel = document.getElementById(carouselId);
+		const track = carousel?.querySelector(
+			".carousel-track",
+		) as HTMLElement | null;
+		const nextBtn = document.querySelector(
+			`.next-btn[data-carousel="${carouselId}"]`,
+		);
+		const prevBtn = document.querySelector(
+			`.prev-btn[data-carousel="${carouselId}"]`,
+		);
+
+		if (carousel && track && nextBtn && prevBtn) {
+			let currentOffset = 0;
+
+			nextBtn.addEventListener("click", () => {
+				const card = track.querySelector(
+					".carousel-card",
+				) as HTMLElement | null;
+				if (card) {
+					const cardWidth = card.offsetWidth;
+					const gap =
+						parseFloat(window.getComputedStyle(track).gap) || 32;
+					const shift = cardWidth + gap;
+
+					const maxScroll = track.scrollWidth - carousel.clientWidth;
+					if (Math.abs(currentOffset) < maxScroll) {
+						currentOffset -= shift;
+						if (Math.abs(currentOffset) > maxScroll)
+							currentOffset = -maxScroll;
+						track.style.transform = `translateX(${currentOffset}px)`;
+					}
+				}
+			});
+			prevBtn.addEventListener("click", () => {
+				const card = track.querySelector(
+					".carousel-card",
+				) as HTMLElement | null;
+				if (card) {
+					const cardWidth = card.offsetWidth;
+					const gap =
+						parseFloat(window.getComputedStyle(track).gap) || 32;
+					const shift = cardWidth + gap;
+
+					currentOffset += shift;
+					if (currentOffset > 0) currentOffset = 0;
+					track.style.transform = `translateX(${currentOffset}px)`;
+				}
+			});
+		}
+	}
+
+	function initPoemLogic() {
+		// Initialize all carousels
+		initCarousel("creative-carousel");
+		initCarousel("fables-carousel");
+
+		// Media Zoom Modal (imagen + video)
+		const modal = document.getElementById(
+			"media-modal",
+		) as HTMLDialogElement | null;
+		const modalImg = document.getElementById(
+			"modal-image",
+		) as HTMLImageElement | null;
+		const modalVideo = document.getElementById(
+			"modal-video",
+		) as HTMLVideoElement | null;
+		const closeBtn = document.querySelector(".close-media-btn");
+
+		if (!modal || !modalImg || !modalVideo || !closeBtn) return;
+
+		// Guardamos scroll antes de abrir para restaurar al cerrar
+		let savedScroll = 0;
+
+		function closeModal() {
+			// Detener y limpiar video al cerrar
+			if (modalVideo) {
+				modalVideo.pause();
+				modalVideo.currentTime = 0;
+				modalVideo.src = "";
+				modalVideo.style.display = "none";
+			}
+			if (modalImg) {
+				modalImg.src = "";
+				modalImg.style.display = "none";
+			}
+			modal!.close();
+			// Restaurar posición de scroll después de cerrar el dialog
+			requestAnimationFrame(() => {
+				window.scrollTo({
+					top: savedScroll,
+					behavior: "instant" as ScrollBehavior,
+				});
+			});
+		}
+
+		// Escuchar clics en cualquier medio zoomeable
+		document.querySelectorAll(".zoomable-media").forEach((el) => {
+			el.addEventListener("click", () => {
+				// Capturar posición de scroll actual antes de abrir
+				savedScroll = window.scrollY || window.pageYOffset;
+
+				const tag = el.tagName.toLowerCase();
+				const src =
+					(el as HTMLMediaElement).src ||
+					(el as HTMLMediaElement).currentSrc;
+
+				if (tag === "video" || src.endsWith(".mp4")) {
+					modalImg!.style.display = "none";
+					modalVideo!.style.display = "block";
+					modalVideo!.src = src;
+					modalVideo!.play();
+				} else {
+					modalVideo!.style.display = "none";
+					modalImg!.style.display = "block";
+					modalImg!.src = src;
+				}
+
+				modal!.showModal();
+			});
+		});
+
+		closeBtn.addEventListener("click", closeModal);
+
+		// Cerrar al hacer clic fuera del contenido
+		modal.addEventListener("click", (e) => {
+			if (e.target === modal) {
+				closeModal();
+			}
+		});
+
+		// ESC también restaura posición
+		modal.addEventListener("close", () => {
+			if (modalVideo) {
+				modalVideo.pause();
+				modalVideo.currentTime = 0;
+				modalVideo.src = "";
+				modalVideo.style.display = "none";
+			}
+			requestAnimationFrame(() => {
+				window.scrollTo({
+					top: savedScroll,
+					behavior: "instant" as ScrollBehavior,
+				});
+			});
+		});
+	}
+
+	// Compatibilidad en carga de Astro
+	document.addEventListener("astro:page-load", initPoemLogic);
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initPoemLogic);
+	} else {
+		initPoemLogic();
+	}
+</script>
