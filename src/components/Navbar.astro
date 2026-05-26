@@ -223,15 +223,14 @@
 
         if (sections.length === 0) return;
 
+        let currentActive = "inicio";
+
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        links.forEach((l) => l.classList.remove("active"));
-                        const activeLink = document.querySelector(
-                            `.nav-link[data-section="${entry.target.id}"]`
-                        );
-                        activeLink?.classList.add("active");
+                        currentActive = entry.target.id;
+                        updateActiveLink(currentActive);
                     }
                 });
             },
@@ -239,6 +238,33 @@
         );
 
         sections.forEach((s) => observer.observe(s));
+
+        function updateActiveLink(id: string) {
+            links.forEach((l) => l.classList.remove("active"));
+            const activeLink = document.querySelector(
+                `.nav-link[data-section="${id}"]`
+            );
+            activeLink?.classList.add("active");
+        }
+
+        // Eliminar eventos anteriores para evitar duplicados con Astro View Transitions
+        if ((window as any).onScrollNavbar) {
+            window.removeEventListener("scroll", (window as any).onScrollNavbar);
+        }
+
+        (window as any).onScrollNavbar = () => {
+            const isBottom = window.innerHeight + Math.round(window.scrollY) >= document.body.offsetHeight - 50;
+            if (isBottom) {
+                updateActiveLink("raices");
+            } else {
+                const raicesLink = document.querySelector('.nav-link[data-section="raices"]');
+                if (raicesLink?.classList.contains("active") && currentActive !== "raices") {
+                    updateActiveLink(currentActive);
+                }
+            }
+        };
+
+        window.addEventListener("scroll", (window as any).onScrollNavbar, { passive: true });
     }
 
     document.addEventListener("astro:page-load", initNavbar);
