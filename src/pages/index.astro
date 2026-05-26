@@ -240,12 +240,35 @@ const fabulas: string[] = [
 				</div>
 				<h3 class="publickey-title">RSA Public Key</h3>
 				<p class="publickey-desc">
-					La llave pública RSA estará disponible próximamente, una vez completada la práctica de cifrado asimétrico.
+					Mi llave pública RSA está disponible para verificar mi identidad digital, firmar documentos o establecer comunicaciones cifradas seguras.
 				</p>
-				<span class="publickey-status">
-					<span class="status-dot"></span>
-					Próximamente
-				</span>
+				<div class="cv-actions" style="margin-top: 1.5rem;">
+					<a
+						href="/keys/GaeloCanelo_public.json"
+						download="GaeloCanelo_public.json"
+						class="cv-download-btn"
+					>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cv-icon">
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+							<polyline points="7 10 12 15 17 10" />
+							<line x1="12" y1="15" x2="12" y2="3" />
+						</svg>
+						Descargar Llave
+					</a>
+					<a
+						href="/keys/GaeloCanelo_public.json"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="cv-open-btn"
+					>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cv-icon">
+							<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+							<polyline points="15 3 21 3 21 9" />
+							<line x1="10" y1="14" x2="21" y2="3" />
+						</svg>
+						Ver Llave
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -846,28 +869,7 @@ const fabulas: string[] = [
 		margin-bottom: 1.5rem;
 	}
 
-	.publickey-status {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		color: #fbbf24;
-		font-size: 0.85rem;
-		font-weight: 600;
-		letter-spacing: 0.5px;
-	}
 
-	.status-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: #fbbf24;
-		animation: dot-blink 1.5s ease-in-out infinite;
-	}
-
-	@keyframes dot-blink {
-		0%, 100% { opacity: 1; }
-		50% { opacity: 0.3; }
-	}
 
 	/* ===== CRYPTOGRAPHY SECTION ===== */
 	.crypto-grid {
